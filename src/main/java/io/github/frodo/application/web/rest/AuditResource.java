@@ -3,7 +3,7 @@ package io.github.frodo.application.web.rest;
 import io.github.frodo.application.service.AuditEventService;
 import io.github.frodo.application.web.rest.util.PaginationUtil;
 
-import io.github.jhipster.web.util.ResponseUtil;
+import io.github.frodo.application.web.rest.util.ResponseUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

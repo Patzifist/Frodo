@@ -2,8 +2,8 @@ package io.github.frodo.application.service;
 import io.github.frodo.application.config.Constants;
 
 import io.github.frodo.application.FrodoApp;
+import io.github.frodo.application.config.IRSProperties;
 import io.github.frodo.application.domain.User;
-import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 public class MailServiceIntTest {
 
     @Autowired
-    private JHipsterProperties jHipsterProperties;
+    private IRSProperties IRSProperties;
 
     @Autowired
     private MessageSource messageSource;
@@ -54,7 +54,7 @@ public class MailServiceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
-        mailService = new MailService(jHipsterProperties, javaMailSender, messageSource, templateEngine);
+        mailService = new MailService(IRSProperties, javaMailSender, messageSource, templateEngine);
     }
 
     @Test

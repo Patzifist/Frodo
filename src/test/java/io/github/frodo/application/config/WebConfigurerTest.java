@@ -1,8 +1,5 @@
 package io.github.frodo.application.config;
 
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
 import io.undertow.Undertow;
 import io.undertow.Undertow.Builder;
 import io.undertow.UndertowOptions;
@@ -45,7 +42,7 @@ public class WebConfigurerTest {
 
     private MockEnvironment env;
 
-    private JHipsterProperties props;
+    private IRSProperties props;
 
     @Before
     public void setup() {
@@ -56,14 +53,14 @@ public class WebConfigurerTest {
             .when(servletContext).addServlet(anyString(), any(Servlet.class));
 
         env = new MockEnvironment();
-        props = new JHipsterProperties();
+        props = new IRSProperties();
 
         webConfigurer = new WebConfigurer(env, props);
     }
 
     @Test
     public void testStartUpProdServletContext() throws ServletException {
-        env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_PRODUCTION);
+        env.setActiveProfiles(Constants.SPRING_PROFILE_PRODUCTION);
         webConfigurer.onStartup(servletContext);
 
         verify(servletContext).addFilter(eq("cachingHttpHeadersFilter"), any(CachingHttpHeadersFilter.class));
@@ -72,7 +69,7 @@ public class WebConfigurerTest {
 
     @Test
     public void testStartUpDevServletContext() throws ServletException {
-        env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT);
+        env.setActiveProfiles(Constants.SPRING_PROFILE_DEVELOPMENT);
         webConfigurer.onStartup(servletContext);
 
         verify(servletContext, never()).addFilter(eq("cachingHttpHeadersFilter"), any(CachingHttpHeadersFilter.class));
@@ -81,7 +78,7 @@ public class WebConfigurerTest {
 
     @Test
     public void testCustomizeServletContainer() {
-        env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_PRODUCTION);
+        env.setActiveProfiles(Constants.SPRING_PROFILE_PRODUCTION);
         UndertowServletWebServerFactory container = new UndertowServletWebServerFactory();
         webConfigurer.customize(container);
         assertThat(container.getMimeMappings().get("abs")).isEqualTo("audio/x-mpeg");
@@ -99,7 +96,7 @@ public class WebConfigurerTest {
 
     @Test
     public void testUndertowHttp2Enabled() {
-        props.getHttp().setVersion(JHipsterProperties.Http.Version.V_2_0);
+        props.getHttp().setVersion(IRSProperties.Http.Version.V_2_0);
         UndertowServletWebServerFactory container = new UndertowServletWebServerFactory();
         webConfigurer.customize(container);
         Builder builder = Undertow.builder();

@@ -3,23 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.frodo.application</groupId>
-    <artifactId>frodo</artifactId>
+    <artifactId>irs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Frodo</name>
-
-    <repositories>
-        <!-- jhipster-needle-maven-repository -->
-    </repositories>
-
-    <pluginRepositories>
-        <!-- jhipster-needle-maven-plugin-repository -->
-    </pluginRepositories>
-
-    <!-- jhipster-needle-distribution-management -->
+    <name>IRS</name>
 
     <properties>
-        <!-- Build properties -->
+        <!-- Build IRSProperties -->
         <maven.version>3.0.0</maven.version>
         <java.version>1.8</java.version>
         <scala.version>2.12.6</scala.version>
@@ -75,7 +65,7 @@
         <openapi-generator-maven-plugin.version>3.3.0</openapi-generator-maven-plugin.version>
         <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
 
-        <!-- Sonar properties -->
+        <!-- Sonar IRSProperties -->
         <sonar.host.url>http://localhost:9001</sonar.host.url>
         <sonar.exclusions>src/main/webapp/content/**/*.*, src/main/webapp/i18n/*.js, target/www/**/*.*</sonar.exclusions>
         <sonar.issue.ignore.multicriteria>S3437,S4684,UndocumentedApi,BoldAndItalicTagsCheck</sonar.issue.ignore.multicriteria>
@@ -98,8 +88,52 @@
         <sonar.junit.reportsPath>${project.testresult.directory}</sonar.junit.reportsPath>
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
 
-        <!-- jhipster-needle-maven-property -->
+
+
+        <aws-java-sdk-bom.version>1.11.438</aws-java-sdk-bom.version>
+        <bucket4j.version>4.1.1</bucket4j.version>
+        <cassandra-unit-spring.version>3.5.0.1</cassandra-unit-spring.version>
+        <couchmove.version>1.0.2</couchmove.version>
+        <couchbase-testcontainer.version>1.3</couchbase-testcontainer.version>
+        <couchbase-java-client.version>2.7.0</couchbase-java-client.version>
+        <couchbase-encryption.version>1.0.0</couchbase-encryption.version>
+        <cucumber-jvm.version>4.1.1</cucumber-jvm.version>
+        <commons-io.version>2.6</commons-io.version>
+        <guava.version>25.1-jre</guava.version>
+        <!-- The hibernate version should match the one managed by
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
+        <hibernate.version>5.2.17.Final</hibernate.version>
+        <infinispan.version>8.2.11.Final</infinispan.version>
+        <infinispan-cloud.version>9.1.7.Final</infinispan-cloud.version>
+        <infinispan-spring-boot-starter.version>1.0.0.Final</infinispan-spring-boot-starter.version>
+        <jjwt.version>0.10.5</jjwt.version>
+        <liquibase-mssql.version>1.6.4</liquibase-mssql.version>
+        <liquibase-slf4j.version>2.0.0</liquibase-slf4j.version>
+        <logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
+        <lz4-java.version>1.5.0</lz4-java.version>
+        <micrometer.version>1.1.0</micrometer.version>
+        <dropwizard-metrics.version>4.0.3</dropwizard-metrics.version>
+        <mongobee.version>0.13</mongobee.version>
+        <mssql-jdbc.version>7.0.0.jre8</mssql-jdbc.version>
+        <mysql-jdbc.version>5.1.47</mysql-jdbc.version>
+        <oracle-jdbc.version>18.3.0.0</oracle-jdbc.version>
+        <problem-spring-web.version>0.23.0</problem-spring-web.version>
+        <prometheus-simpleclient.version>0.5.0</prometheus-simpleclient.version>
+        <reflections.version>0.9.11</reflections.version>
+        <spring-data-jest.version>3.1.5.RELEASE</spring-data-jest.version>
+        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <spring-security-jwt.version>1.0.9.RELEASE</spring-security-jwt.version>
+        <spring-security-oauth.version>2.3.4.RELEASE</spring-security-oauth.version>
+        <spring-security-oauth2-autoconfigure.version>2.0.8.RELEASE</spring-security-oauth2-autoconfigure.version>
+        <springfox.version>2.9.2</springfox.version>
+        <xmemcached.version>2.4.5</xmemcached.version>
+        <xmemcached-provider.version>4.1.1</xmemcached-provider.version>
+        <problem-spring.version>0.24.0-RC.0</problem-spring.version>
+        <problem-spring-web.version>${problem-spring.version}</problem-spring-web.version>
+        <problem-spring-webflux.version>${problem-spring.version}</problem-spring-webflux.version>
+        <mapstruct.version>1.2.0.Final</mapstruct.version>
     </properties>
+
 
     <dependencyManagement>
         <dependencies>
@@ -110,19 +144,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- jhipster-needle-maven-add-dependency-management -->
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.jhipster</groupId>
-            <artifactId>jhipster-framework</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -152,6 +181,7 @@
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-spring-boot-starter</artifactId>
+            <version>${infinispan-spring-boot-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>org.infinispan</groupId>
@@ -161,12 +191,12 @@
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-jcache</artifactId>
         </dependency>
-<!--
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-cloud</artifactId>
+            <version>${infinispan-cloud.version}</version>
         </dependency>
--->
+
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
@@ -176,14 +206,17 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mattbertolini</groupId>
             <artifactId>liquibase-slf4j</artifactId>
+            <version>${liquibase-slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -192,6 +225,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -204,10 +238,12 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
+            <version>${mssql-jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.sabomichal</groupId>
             <artifactId>liquibase-mssql</artifactId>
+            <version>${liquibase-mssql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -234,45 +270,55 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <scope>provided</scope>
+            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <scope>provided</scope>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-loader-tools</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <!-- Spring Data Jest dependencies for Elasticsearch -->
         <dependency>
             <groupId>com.github.vanroy</groupId>
             <artifactId>spring-boot-starter-data-jest</artifactId>
+            <version>${spring-data-jest.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -295,32 +341,39 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
             <scope>test</scope>
+            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -330,11 +383,13 @@
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>problem-spring-web</artifactId>
+            <version>${problem-spring-web.version}</version>
         </dependency>
         <!-- Spring Cloud -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cloud-connectors</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
         <!-- Security -->
         <dependency>
@@ -344,10 +399,12 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
+            <version>${dropwizard-metrics.version}</version>
         </dependency>
         <!-- Cucumber -->
         <dependency>
@@ -360,7 +417,6 @@
             <artifactId>cucumber-spring</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
 
     <build>
@@ -458,7 +514,6 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
             </plugin>
-            <!-- jhipster-needle-maven-add-plugin -->
         </plugins>
         <pluginManagement>
             <plugins>
@@ -544,7 +599,7 @@
                           </ports>
                           <environment>
 <JAVA_OPTS>-Djgroups.tcp.address=NON_LOOPBACK -Djava.net.preferIPv4Stack=true</JAVA_OPTS>                              <SPRING_OUTPUT_ANSI_ENABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENABLED>
-                              <JHIPSTER_SLEEP>0</JHIPSTER_SLEEP>
+                              <IRS_SLEEP>0</IRS_SLEEP>
                           </environment>
                           <useCurrentTimestamp>true</useCurrentTimestamp>
                       </container>
@@ -617,12 +672,11 @@
                     <configuration>
                         <rules>
                             <requireMavenVersion>
-                                <message>You are running an older version of Maven. JHipster requires at least Maven ${maven.version}</message>
+                                <message>You are running an older version of Maven. IRS requires at least Maven ${maven.version}</message>
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
-                                <!-- Until JHipster supports JDK 9 -->
-                                <message>You are running an incompatible version of Java. JHipster requires JDK ${java.version}</message>
+                                <message>You are running an incompatible version of Java. IRS requires JDK ${java.version}</message>
                                 <version>[1.8,1.9)</version>
                             </requireJavaVersion>
                         </rules>
@@ -1214,6 +1268,5 @@
                 </pluginManagement>
             </build>
         </profile>
-        <!-- jhipster-needle-maven-add-profile -->
     </profiles>
 </project>

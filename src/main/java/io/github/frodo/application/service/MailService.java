@@ -1,8 +1,7 @@
 package io.github.frodo.application.service;
 
+import io.github.frodo.application.config.IRSProperties;
 import io.github.frodo.application.domain.User;
-
-import io.github.jhipster.config.JHipsterProperties;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
@@ -32,7 +31,7 @@ public class MailService {
 
     private static final String BASE_URL = "baseUrl";
 
-    private final JHipsterProperties jHipsterProperties;
+    private final IRSProperties IRSProperties;
 
     private final JavaMailSender javaMailSender;
 
@@ -40,10 +39,10 @@ public class MailService {
 
     private final SpringTemplateEngine templateEngine;
 
-    public MailService(JHipsterProperties jHipsterProperties, JavaMailSender javaMailSender,
-            MessageSource messageSource, SpringTemplateEngine templateEngine) {
+    public MailService(IRSProperties IRSProperties, JavaMailSender javaMailSender,
+                       MessageSource messageSource, SpringTemplateEngine templateEngine) {
 
-        this.jHipsterProperties = jHipsterProperties;
+        this.IRSProperties = IRSProperties;
         this.javaMailSender = javaMailSender;
         this.messageSource = messageSource;
         this.templateEngine = templateEngine;
@@ -59,7 +58,7 @@ public class MailService {
         try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
             message.setTo(to);
-            message.setFrom(jHipsterProperties.getMail().getFrom());
+            message.setFrom(IRSProperties.getMail().getFrom());
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);
@@ -78,7 +77,7 @@ public class MailService {
         Locale locale = Locale.forLanguageTag(user.getLangKey());
         Context context = new Context(locale);
         context.setVariable(USER, user);
-        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        context.setVariable(BASE_URL, IRSProperties.getMail().getBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);

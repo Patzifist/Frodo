@@ -3,10 +3,9 @@ package io.github.frodo.application.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Properties specific to Frodo.
+ * IRSProperties specific to IRS.
  * <p>
- * Properties are configured in the application.yml file.
- * See {@link io.github.jhipster.config.JHipsterProperties} for a good example.
+ * IRSProperties are configured in the application.yml file.
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {

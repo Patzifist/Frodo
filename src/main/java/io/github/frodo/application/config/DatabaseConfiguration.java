@@ -1,7 +1,5 @@
 package io.github.frodo.application.config;
 
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.h2.H2ConfigurationHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +36,7 @@ public class DatabaseConfiguration {
      * @throws SQLException if the server failed to start
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
-    @Profile(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
+    @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
     public Object h2TCPServer() throws SQLException {
         String port = getValidPortForH2();
         log.debug("H2 database is available on port {}", port);

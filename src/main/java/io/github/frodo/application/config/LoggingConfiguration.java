@@ -3,8 +3,6 @@ package io.github.frodo.application.config;
 import java.net.InetSocketAddress;
 import java.util.Iterator;
 
-import io.github.jhipster.config.JHipsterProperties;
-
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -38,18 +36,18 @@ public class LoggingConfiguration {
 
     private final String serverPort;
 
-    private final JHipsterProperties jHipsterProperties;
+    private final IRSProperties IRSProperties;
 
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-         JHipsterProperties jHipsterProperties) {
+         IRSProperties IRSProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
-        this.jHipsterProperties = jHipsterProperties;
-        if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
+        this.IRSProperties = IRSProperties;
+        if (IRSProperties.getLogging().getLogstash().isEnabled()) {
             addLogstashAppender(context);
             addContextListener(context);
         }
-        if (jHipsterProperties.getMetrics().getLogs().isEnabled()) {
+        if (IRSProperties.getMetrics().getLogs().isEnabled()) {
             setMetricsMarkerLogbackFilter(context);
         }
     }
@@ -70,8 +68,8 @@ public class LoggingConfiguration {
 
         // More documentation is available at: https://github.com/logstash/logstash-logback-encoder
         LogstashEncoder logstashEncoder = new LogstashEncoder();
-        // Set the Logstash appender config from JHipster properties
-        logstashAppender.addDestinations(new InetSocketAddress(jHipsterProperties.getLogging().getLogstash().getHost(), jHipsterProperties.getLogging().getLogstash().getPort()));
+        // Set the Logstash appender config from JHipster IRSProperties
+        logstashAppender.addDestinations(new InetSocketAddress(IRSProperties.getLogging().getLogstash().getHost(), IRSProperties.getLogging().getLogstash().getPort()));
 
         ShortenedThrowableConverter throwableConverter = new ShortenedThrowableConverter();
         throwableConverter.setRootCauseFirst(true);
@@ -85,7 +83,7 @@ public class LoggingConfiguration {
         AsyncAppender asyncLogstashAppender = new AsyncAppender();
         asyncLogstashAppender.setContext(context);
         asyncLogstashAppender.setName(ASYNC_LOGSTASH_APPENDER_NAME);
-        asyncLogstashAppender.setQueueSize(jHipsterProperties.getLogging().getLogstash().getQueueSize());
+        asyncLogstashAppender.setQueueSize(IRSProperties.getLogging().getLogstash().getQueueSize());
         asyncLogstashAppender.addAppender(logstashAppender);
         asyncLogstashAppender.start();
 

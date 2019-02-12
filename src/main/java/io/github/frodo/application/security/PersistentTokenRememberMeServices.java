@@ -1,13 +1,10 @@
 package io.github.frodo.application.security;
 
+import io.github.frodo.application.config.IRSProperties;
 import io.github.frodo.application.domain.PersistentToken;
 import io.github.frodo.application.repository.PersistentTokenRepository;
 import io.github.frodo.application.repository.UserRepository;
 import io.github.frodo.application.service.util.RandomUtil;
-
-
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.security.PersistentTokenCache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +49,7 @@ import java.util.*;
  * couldn't be cleanly extended.
  */
 @Service
-public class PersistentTokenRememberMeServices extends
-    AbstractRememberMeServices {
+public class PersistentTokenRememberMeServices extends AbstractRememberMeServices {
 
     private final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);
 
@@ -70,11 +66,11 @@ public class PersistentTokenRememberMeServices extends
 
     private final UserRepository userRepository;
 
-    public PersistentTokenRememberMeServices(JHipsterProperties jHipsterProperties,
-            org.springframework.security.core.userdetails.UserDetailsService userDetailsService,
-            PersistentTokenRepository persistentTokenRepository, UserRepository userRepository) {
+    public PersistentTokenRememberMeServices(IRSProperties properties,
+                                             org.springframework.security.core.userdetails.UserDetailsService userDetailsService,
+                                             PersistentTokenRepository persistentTokenRepository, UserRepository userRepository) {
 
-        super(jHipsterProperties.getSecurity().getRememberMe().getKey(), userDetailsService);
+        super(properties.getSecurity().getRememberMe().getKey(), userDetailsService);
         this.persistentTokenRepository = persistentTokenRepository;
         this.userRepository = userRepository;
         upgradedTokenCache = new PersistentTokenCache<>(UPGRADED_TOKEN_VALIDITY_MILLIS);

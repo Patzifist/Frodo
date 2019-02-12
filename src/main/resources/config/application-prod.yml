@@ -3,8 +3,6 @@
 #
 # This configuration overrides the application.yml file.
 #
-# More information on profiles: https://www.jhipster.tech/profiles/
-# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -17,7 +15,6 @@ logging:
     level:
         ROOT: INFO
         io.github.frodo.application: INFO
-        io.github.jhipster: INFO
 
 spring:
     devtools:
@@ -93,13 +90,8 @@ server:
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
         min-response-size: 1024
 
-# ===================================================================
-# JHipster specific properties
-#
-# Full reference is available at: https://www.jhipster.tech/common-application-properties/
-# ===================================================================
 
-jhipster:
+irs:
     http:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
         cache: # Used by the CachingHttpHeadersFilter
@@ -125,7 +117,7 @@ jhipster:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
             key: d0fdaaafc49ff82606e9e2964d4904c444a406e33c6666364da99cd68c1171f1801c33c762ff0560c007b7efe6eca15d45f4
-    mail: # specific JHipster mail property, for standard properties see MailProperties
+    mail:
         from: Frodo@localhost
         base-url: http://my-server-url-to-change # Modify according to your server's URL
     metrics:
@@ -142,10 +134,8 @@ jhipster:
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
+# to have type-safe configuration, like in the IRSProperties above
 #
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # application:

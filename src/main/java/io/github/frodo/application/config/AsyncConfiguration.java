@@ -1,8 +1,5 @@
 package io.github.frodo.application.config;
 
-import io.github.jhipster.async.ExceptionHandlingAsyncTaskExecutor;
-import io.github.jhipster.config.JHipsterProperties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -24,10 +21,10 @@ public class AsyncConfiguration implements AsyncConfigurer, SchedulingConfigurer
 
     private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
 
-    private final JHipsterProperties jHipsterProperties;
+    private final IRSProperties irsProperties;
 
-    public AsyncConfiguration(JHipsterProperties jHipsterProperties) {
-        this.jHipsterProperties = jHipsterProperties;
+    public AsyncConfiguration(IRSProperties irsProperties) {
+        this.irsProperties = irsProperties;
     }
 
     @Override
@@ -35,9 +32,9 @@ public class AsyncConfiguration implements AsyncConfigurer, SchedulingConfigurer
     public Executor getAsyncExecutor() {
         log.debug("Creating Async Task Executor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
-        executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
-        executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
+        executor.setCorePoolSize(irsProperties.getAsync().getCorePoolSize());
+        executor.setMaxPoolSize(irsProperties.getAsync().getMaxPoolSize());
+        executor.setQueueCapacity(irsProperties.getAsync().getQueueCapacity());
         executor.setThreadNamePrefix("frodo-Executor-");
         return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
@@ -54,6 +51,6 @@ public class AsyncConfiguration implements AsyncConfigurer, SchedulingConfigurer
 
     @Bean
     public Executor scheduledTaskExecutor() {
-        return Executors.newScheduledThreadPool(jHipsterProperties.getAsync().getCorePoolSize());
+        return Executors.newScheduledThreadPool(irsProperties.getAsync().getCorePoolSize());
     }
 }

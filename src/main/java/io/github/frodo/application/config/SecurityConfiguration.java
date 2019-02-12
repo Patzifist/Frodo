@@ -2,9 +2,6 @@ package io.github.frodo.application.config;
 
 import io.github.frodo.application.security.*;
 
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.security.*;
-
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
-    private final JHipsterProperties jHipsterProperties;
+    private final IRSProperties properties;
 
     private final RememberMeServices rememberMeServices;
 
@@ -46,11 +43,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SecurityProblemSupport problemSupport;
 
-    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, 
-        JHipsterProperties jHipsterProperties, RememberMeServices rememberMeServices, CorsFilter corsFilter, SecurityProblemSupport problemSupport) {
+    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService,
+                                 IRSProperties properties, RememberMeServices rememberMeServices, CorsFilter corsFilter, SecurityProblemSupport problemSupport) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDetailsService = userDetailsService;
-        this.jHipsterProperties = jHipsterProperties;
+        this.properties = properties;
         this.rememberMeServices = rememberMeServices;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
@@ -119,7 +116,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .rememberMe()
             .rememberMeServices(rememberMeServices)
             .rememberMeParameter("remember-me")
-            .key(jHipsterProperties.getSecurity().getRememberMe().getKey())
+            .key(properties.getSecurity().getRememberMe().getKey())
         .and()
             .formLogin()
             .loginProcessingUrl("/api/authentication")

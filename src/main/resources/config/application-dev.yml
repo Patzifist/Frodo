@@ -3,8 +3,6 @@
 #
 # This configuration overrides the application.yml file.
 #
-# More information on profiles: https://www.jhipster.tech/profiles/
-# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -16,7 +14,6 @@
 logging:
     level:
         ROOT: DEBUG
-        io.github.jhipster: DEBUG
         io.github.frodo.application: DEBUG
 
 spring:
@@ -47,7 +44,7 @@ spring:
         console:
             enabled: false
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
+        database-platform:  io.github.frodo.application.domain.util.FixedH2Dialect
         database: H2
         show-sql: true
         properties:
@@ -82,13 +79,8 @@ spring:
 server:
     port: 8080
 
-# ===================================================================
-# JHipster specific properties
-#
-# Full reference is available at: https://www.jhipster.tech/common-application-properties/
-# ===================================================================
 
-jhipster:
+irs:
     http:
         version: V_1_1 # To use HTTP/2 you will need to activate TLS (see application-tls.yml)
     cache: # Cache configuration
@@ -120,7 +112,7 @@ jhipster:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
             key: d0fdaaafc49ff82606e9e2964d4904c444a406e33c6666364da99cd68c1171f1801c33c762ff0560c007b7efe6eca15d45f4
-    mail: # specific JHipster mail property, for standard properties see MailProperties
+    mail: #
         from: Frodo@localhost
         base-url: http://127.0.0.1:8080
     metrics:
@@ -137,10 +129,8 @@ jhipster:
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
+# to have type-safe configuration, like in the IRSProperties above
 #
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # application:

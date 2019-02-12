@@ -2,9 +2,6 @@
 # Spring Boot configuration.
 #
 # This configuration is used for unit/integration tests.
-#
-# More information on profiles: https://www.jhipster.tech/profiles/
-# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # ===================================================================
@@ -28,7 +25,7 @@ spring:
         hikari:
             auto-commit: false
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
+        database-platform:  io.github.frodo.application.domain.util.FixedH2Dialect
         database: H2
         open-in-view: false
         show-sql: false
@@ -67,11 +64,6 @@ server:
     port: 10344
     address: localhost
 
-# ===================================================================
-# JHipster specific properties
-#
-# Full reference is available at: https://www.jhipster.tech/common-application-properties/
-# ===================================================================
 
 jhipster:
     async:
@@ -100,10 +92,8 @@ jhipster:
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
+# to have type-safe configuration, like in the IRSProperties above
 #
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
 # application:

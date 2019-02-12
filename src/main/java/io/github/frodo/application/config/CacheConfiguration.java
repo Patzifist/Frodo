@@ -9,7 +9,6 @@ import infinispan.autoconfigure.embedded.InfinispanCacheConfigurer;
 import infinispan.autoconfigure.embedded.InfinispanGlobalConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.github.jhipster.config.JHipsterProperties;
 import java.util.concurrent.TimeUnit;
 import org.infinispan.eviction.EvictionType;
 import org.infinispan.manager.EmbeddedCacheManager;
@@ -60,13 +59,13 @@ public class CacheConfiguration {
      *
      */
     @Bean
-    public InfinispanGlobalConfigurer globalConfiguration(JHipsterProperties jHipsterProperties) {
+    public InfinispanGlobalConfigurer globalConfiguration(IRSProperties irsProperties) {
         log.info("Defining Infinispan Global Configuration");
             return () -> GlobalConfigurationBuilder
                     .defaultClusteredBuilder().transport().defaultTransport()
-                    .addProperty("configurationFile", jHipsterProperties.getCache().getInfinispan().getConfigFile())
+                    .addProperty("configurationFile", irsProperties.getCache().getInfinispan().getConfigFile())
                     .clusterName("infinispan-Frodo-cluster").globalJmxStatistics()
-                    .enabled(jHipsterProperties.getCache().getInfinispan().isStatsEnabled())
+                    .enabled(irsProperties.getCache().getInfinispan().isStatsEnabled())
                     .allowDuplicateDomains(true).build();
     }
 
@@ -105,9 +104,9 @@ public class CacheConfiguration {
      *
      */
     @Bean
-    public InfinispanCacheConfigurer cacheConfigurer(JHipsterProperties jHipsterProperties) {
+    public InfinispanCacheConfigurer cacheConfigurer(IRSProperties irsProperties) {
         log.info("Defining {} configuration", "app-data for local, replicated and distributed modes");
-        JHipsterProperties.Cache.Infinispan cacheInfo = jHipsterProperties.getCache().getInfinispan();
+        IRSProperties.Cache.Infinispan cacheInfo = irsProperties.getCache().getInfinispan();
 
         return manager -> {
             // initialize application cache
@@ -159,15 +158,15 @@ public class CacheConfiguration {
      *
      */
     @Bean
-    public JCacheManager getJCacheManager(EmbeddedCacheManager cacheManager, JHipsterProperties jHipsterProperties){
+    public JCacheManager getJCacheManager(EmbeddedCacheManager cacheManager, IRSProperties irsProperties){
         return new InfinispanJCacheManager(Caching.getCachingProvider().getDefaultURI(), cacheManager,
-            Caching.getCachingProvider(), jHipsterProperties);
+            Caching.getCachingProvider(), irsProperties);
     }
 
     class InfinispanJCacheManager extends JCacheManager {
 
         public InfinispanJCacheManager(URI uri, EmbeddedCacheManager cacheManager, CachingProvider provider,
-                                       JHipsterProperties jHipsterProperties) {
+                                       IRSProperties irsProperties) {
             super(uri, cacheManager, provider);
             // register individual caches to make the stats info available.
             registerPredefinedCache(io.github.frodo.application.repository.UserRepository.USERS_BY_LOGIN_CACHE, new JCache<Object, Object>(
@@ -192,7 +191,7 @@ public class CacheConfiguration {
                 cacheManager.getCache(io.github.frodo.application.domain.User.class.getName() + ".persistentTokens").getAdvancedCache(), this,
                 ConfigurationAdapter.create()));
             // jhipster-needle-infinispan-add-entry
-            if (jHipsterProperties.getCache().getInfinispan().isStatsEnabled()) {
+            if (irsProperties.getCache().getInfinispan().isStatsEnabled()) {
                 for (String cacheName : cacheManager.getCacheNames()) {
                     enableStatistics(cacheName, true);
                 }

@@ -1,13 +1,8 @@
 package io.github.frodo.application.config;
 
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.config.h2.H2ConfigurationHelper;
-import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
 import io.undertow.UndertowOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.boot.web.server.*;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -39,24 +34,23 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 
     private final Environment env;
 
-    private final JHipsterProperties jHipsterProperties;
+    private final IRSProperties irsProperties;
 
-    public WebConfigurer(Environment env, JHipsterProperties jHipsterProperties) {
-
+    public WebConfigurer(Environment env, IRSProperties irsProperties) {
         this.env = env;
-        this.jHipsterProperties = jHipsterProperties;
+        this.irsProperties = irsProperties;
     }
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         if (env.getActiveProfiles().length != 0) {
             log.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
         }
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
-        if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_PRODUCTION)) {
+        if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
         }
-        if (env.acceptsProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)) {
+        if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
             initH2Console(servletContext);
         }
         log.info("Web application fully configured");
@@ -74,10 +68,10 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         /*
          * Enable HTTP/2 for Undertow - https://twitter.com/ankinson/status/829256167700492288
          * HTTP/2 requires HTTPS, so HTTP requests will fallback to HTTP/1.1.
-         * See the JHipsterProperties class and your application-*.yml configuration files
+         * See the IRSProperties class and your application-*.yml configuration files
          * for more information.
          */
-        if (jHipsterProperties.getHttp().getVersion().equals(JHipsterProperties.Http.Version.V_2_0) &&
+        if (irsProperties.getHttp().getVersion().equals(IRSProperties.Http.Version.V_2_0) &&
             server instanceof UndertowServletWebServerFactory) {
 
             ((UndertowServletWebServerFactory) server)
@@ -138,7 +132,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         log.debug("Registering Caching HTTP Headers Filter");
         FilterRegistration.Dynamic cachingHttpHeadersFilter =
             servletContext.addFilter("cachingHttpHeadersFilter",
-                new CachingHttpHeadersFilter(jHipsterProperties));
+                new CachingHttpHeadersFilter(irsProperties));
 
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");
@@ -149,7 +143,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = jHipsterProperties.getCors();
+        CorsConfiguration config = irsProperties.getCors();
         if (config.getAllowedOrigins() != null && !config.getAllowedOrigins().isEmpty()) {
             log.debug("Registering CORS filter");
             source.registerCorsConfiguration("/api/**", config);
